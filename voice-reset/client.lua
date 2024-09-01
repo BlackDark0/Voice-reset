@@ -1,10 +1,6 @@
--- client.lua
-
--- Cargar configuración
 local Config = Config or {}
 local Framework = Config.Framework or 'qbcore'
 
--- Cargar el objeto de framework apropiado
 local QBCore, ESX
 
 Citizen.CreateThread(function()
@@ -18,21 +14,18 @@ Citizen.CreateThread(function()
     end
 end)
 
--- Función para mostrar notificaciones usando QBCore
 local function showNotificationQBCore(message, type)
     if QBCore and QBCore.Functions then
         QBCore.Functions.Notify(message, type)
     end
 end
 
--- Función para mostrar notificaciones usando ESX
 local function showNotificationESX(message)
     if ESX and ESX.ShowNotification then
         ESX.ShowNotification(message)
     end
 end
 
--- Mostrar notificación
 local function showNotification(message)
     if Framework == 'qbcore' then
         showNotificationQBCore(message, 'success')
@@ -41,9 +34,7 @@ local function showNotification(message)
     end
 end
 
--- Registrar el comando 'rvoz'
-RegisterCommand('rvoz', function()
-    -- Comando para restaurar el chat de voz
+RegisterCommand('rvoz', function()     -- Comando para restaurar el chat de voz 'rvoz' lo puedes cambiar si quieres
     NetworkClearVoiceChannel()
     NetworkSessionVoiceLeave()
     Wait(50)
@@ -52,11 +43,8 @@ RegisterCommand('rvoz', function()
     Wait(1000)
     MumbleSetVoiceTarget(2)
     NetworkSetVoiceActive(true)
-
-    -- Notificación usando QBCore o ESX
     showNotification('El chat de voz ha sido restaurado.')
 
-    -- Notificación en el chat con "Sistema" en rojo
     TriggerEvent('chat:addMessage', {
         color = {255, 255, 255},
         multiline = true,
@@ -64,19 +52,16 @@ RegisterCommand('rvoz', function()
     })
 end)
 
--- Agregar sugerencia de comando al chat
 Citizen.CreateThread(function()
     TriggerEvent('chat:addSuggestion', '/rvoz', 'Restaurar el chat de voz')
 end)
 
--- Mensaje en la consola del servidor (txAdmin) al iniciar o reiniciar el recurso
 AddEventHandler('onResourceStart', function(resourceName)
     if GetCurrentResourceName() == resourceName then
         print("^2[BlackDark0] ^0El script " .. resourceName .. " se ha iniciado correctamente.")
     end
 end)
 
--- Mostrar mensaje de inicio cuando el recurso se carga/reinicia
 Citizen.CreateThread(function()
     if GetResourceState(GetCurrentResourceName()) == 'started' then
         print("^1[BlackDark0] ^0El script " .. GetCurrentResourceName() .. " ha sido cargado exitosamente.")
