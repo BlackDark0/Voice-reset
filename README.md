@@ -16,5 +16,5 @@ A basic and simple but necessary script
 # **Framework**
 Valid for ESX and QBcore
 
-# **Instalar y configurar**
+# **Install and configure**
 You download the file, drag it to your scripts or resources folder, open **config.lua**, choose your framework and **DONE**!!
